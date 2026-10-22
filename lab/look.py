@@ -13,7 +13,8 @@ WATER = "#9dbbd6"
 
 CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+/* Loaded here as well as in config.toml: on Streamlit Cloud the theme's font URLs don't always load. */
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap');
 
 :root {
   --ink: #23211c; --ink-soft: #5c574c; --paper: #f6f3ea; --rule: #d6cdb6;
