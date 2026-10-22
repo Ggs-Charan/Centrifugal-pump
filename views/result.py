@@ -48,9 +48,7 @@ st.html("""
       most at high flow when the time is short. This is the likely cause of reading 4 coming out slightly below reading 3.</li>
   <li>Reading the gauges to the nearest metre, and needle flutter at high flow.</li>
   <li>Not waiting long enough for the flow to settle after moving the valve.</li>
-  <li>Power read from the inverter includes motor losses, so it isn't the shaft power going into the pump.</li>
-  <li>Arithmetic slips when working by hand. Slips in readings 4, 5 and 6 were found and corrected in this record.</li>
-</ul>""")
+  <li>Power read from the inverter includes motor losses, so it isn't the shaft power going into the pump.</li></ul>""")
 
 look.section("04", "Precautions")
 st.html("""
@@ -61,31 +59,3 @@ st.html("""
   <li>Let the gauges settle before reading, and read them at eye level.</li>
   <li>Close the measuring tank's drain fully before timing.</li>
 </ul>""")
-
-look.section("05", "Viva questions")
-qa = [
-    ("Why is a centrifugal pump primed before starting?",
-     "The impeller can only build a small pressure in air, nowhere near enough to lift water up the suction pipe. "
-     "Filling the casing and suction line with water first lets it develop full head."),
-    ("Why does the head fall as the flow increases?",
-     "At fixed speed the impeller gives the water a limited amount of energy. Friction and shock losses inside the "
-     "pump grow roughly with flow squared, so more flow leaves less head."),
-    ("Why is a centrifugal pump started with the delivery valve closed?",
-     "Power drawn is lowest at shut-off, so starting there keeps the starting load on the motor low. Open the valve "
-     "once the pump is up to speed."),
-    ("What is the best efficiency point?",
-     "The flow at which the pump converts input power to water power most efficiently. Pumps are selected to run "
-     "near it, as that also minimises wear and vibration."),
-    ("What are the affinity laws?",
-     "For the same pump at different speeds: Q ∝ n, H ∝ n², P ∝ n³. They let you predict performance at a new speed "
-     "from one measured curve."),
-    ("What is cavitation and when does it happen?",
-     "Vapour bubbles form where local pressure at the impeller eye drops below the water's vapour pressure, then collapse "
-     "violently further in. It happens with high suction lift or high flow, and causes noise, pitting and a drop in head."),
-    ("Why is the measured efficiency only about 30 %?",
-     "It's overall efficiency, including motor and inverter losses. Small bench pumps are also less efficient than "
-     "large ones because clearances and friction matter more at small size."),
-]
-for q, a in qa:
-    with st.expander(q):
-        st.html(f'<p class="prose">{a}</p>')

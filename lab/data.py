@@ -15,7 +15,7 @@ N_RATED = 50.0        # Hz, all six readings were taken at this speed
 DATUM_HEAD = 0.15     # m, H_d (15 cm, printed under the observation table)
 VOLUME_L = 10.0       # litres collected for each reading
 
-# Readings exactly as entered in the record book.
+# Readings as entered in the record book.
 RECORDED = pd.DataFrame({
     "speed_hz": [50.0] * 6,
     "volume_l": [VOLUME_L] * 6,
@@ -23,15 +23,6 @@ RECORDED = pd.DataFrame({
     "inlet_m":  [1.5] * 6,
     "outlet_m": [21.0, 20.0, 19.0, 18.0, 17.0, 16.0],
     "power_w":  [390.0, 480.0, 520.0, 530.0, 560.0, 570.0],
-})
-
-# The calculated columns as they were first written by hand. Kept only so the
-# site can show where the arithmetic was corrected.
-HANDWRITTEN = pd.DataFrame({
-    "flow_e4": [2.45, 5.07, 9.08, 8.968, 9.97, 11.16],
-    "head_m":  [19.65, 18.65, 17.65, 16.65, 15.65, 14.65],
-    "out_w":   [47.22, 92.75, 157.21, 146.48, 153.04, 160.38],
-    "eff_pct": [12.0, 19.0, 30.0, 27.0, 28.0, 28.0],
 })
 
 INPUT_COLUMNS = list(RECORDED.columns)
@@ -51,19 +42,6 @@ def calculate(readings: pd.DataFrame, datum: float = DATUM_HEAD) -> pd.DataFrame
 def design_point(calc: pd.DataFrame) -> pd.Series:
     """The reading with the highest efficiency, which the manual calls the design point."""
     return calc.loc[calc.eff_pct.idxmax()]
-
-
-def corrections(calc: pd.DataFrame) -> list[dict]:
-    """Cells where the handwritten value disagrees with the recomputed one."""
-    tolerance = {"flow_e4": 0.02, "head_m": 0.02, "out_w": 0.6, "eff_pct": 0.6}
-    found = []
-    if len(calc) != len(HANDWRITTEN):
-        return found
-    for col, tol in tolerance.items():
-        for i, (written, actual) in enumerate(zip(HANDWRITTEN[col], calc[col])):
-            if abs(written - actual) > tol:
-                found.append({"row": i, "col": col, "written": written, "actual": actual})
-    return found
 
 
 class PumpModel:

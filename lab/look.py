@@ -79,8 +79,6 @@ table.rec th {
 table.rec td { border-bottom: 1px solid var(--rule); padding: .45rem .5rem; vertical-align: top; }
 table.rec td.num { font-family: var(--mono); text-align: right; white-space: nowrap; }
 table.rec th.num { text-align: right; }
-.struck { text-decoration: line-through; text-decoration-color: var(--red); color: var(--ink-soft); }
-.fix { font-family: var(--hand); color: var(--red); font-size: 1.05rem; margin-left: .3rem; }
 
 /* role tags in the variable table */
 .tag {

@@ -7,10 +7,10 @@ centrifugal pump run at 50 Hz while the delivery valve is throttled step by step
 
 - **Experiment**: aim, how the pump works, an animated schematic of the rig, apparatus and procedure.
 - **Theory**: formulae, the variable table, and the chain from what you set to what you read to what you calculate.
-- **Observations**: the six readings in an editable table, calculated values with record-book corrections, a worked example and CSV export.
+- **Observations**: the six readings in an editable table, calculated values, a worked example and CSV export.
 - **Graphs**: head, input power and efficiency against flow rate, with fitted curves and the design point.
 - **Virtual bench**: set motor speed and valve opening, read the instruments and record your own readings.
-- **Result**: design head, discharge and efficiency, inference, sources of error, precautions and viva questions.
+- **Result**: design head, discharge and efficiency, inference, sources of error and precautions.
 
 ## Run it locally
 
