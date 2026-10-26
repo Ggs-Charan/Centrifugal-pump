@@ -15,9 +15,9 @@ st.html("""
   <div class="box">
     <h4><span class="tag set">set</span>&nbsp; independent</h4>
     <ul>
-      <li>Motor speed, <i>n</i> = 50 Hz</li>
+      <li>Motor speed, <i>n</i> = 50 Hz (fixed)</li>
       <li>Delivery valve opening</li>
-      <li>Volume collected, <i>V</i> = 10 L</li>
+      <li>Volume collected, <i>V</i> (10 L in the lab)</li>
     </ul>
   </div>
   <div class="arrow">&rarr;</div>
@@ -25,8 +25,8 @@ st.html("""
     <h4><span class="tag read">read</span>&nbsp; measured</h4>
     <ul>
       <li>Time to collect, <i>t</i></li>
-      <li>Inlet head, <i>h<sub>i</sub></i></li>
-      <li>Outlet head, <i>h<sub>o</sub></i></li>
+      <li>Inlet gauge, <i>h<sub>i</sub></i> (suction side)</li>
+      <li>Outlet gauge, <i>h<sub>o</sub></i> (delivery side)</li>
       <li>Input power, <i>W<sub>i</sub></i></li>
     </ul>
   </div>
@@ -48,10 +48,29 @@ more water flows (the stopwatch time drops) and the pump can't hold as much pres
 gauge falls). The motor has to do more work, so the inverter shows more power. None of the
 measured values can be chosen freely. They are whatever the pump gives you at that valve setting.
 That is why the <i>Observations</i> page only lets you edit the measured columns, and why the
-<i>Virtual bench</i> only gives you the speed and the valve to play with.
+<i>Virtual bench</i> only gives you the valve and the volume to collect.
 </p>""")
 
-look.section("02", "Formulae")
+look.section("02", "The two gauges")
+st.html("""
+<p class="prose">
+Both gauges show pressure as a <b>head</b>: the height of a column of water that pressure could hold up,
+in metres. 1 m of water is about 9.81 kPa, so a reading of 19 m means roughly 186 kPa, or 1.9 bar.
+</p>
+<table class="rec">
+<tr><th>Gauge</th><th>Where it is</th><th>What it tells you</th><th class="num">In the lab</th></tr>
+<tr><td><b>Inlet gauge, <i>h<sub>i</sub></i></b></td><td>On the suction pipe, just before the pump</td>
+    <td>The pressure the water already has as it arrives at the pump.</td><td class="num">1.5 m (steady)</td></tr>
+<tr><td><b>Outlet gauge, <i>h<sub>o</sub></i></b></td><td>On the delivery pipe, just after the pump</td>
+    <td>The pressure after the impeller has worked on it. Rises as the valve closes.</td><td class="num">21 m &rarr; 16 m</td></tr>
+</table>
+<p class="prose">
+The difference <i>h<sub>o</sub></i> &minus; <i>h<sub>i</sub></i> is the head the pump adds. The datum correction
+<i>H<sub>d</sub></i> = 0.15 m accounts for the two gauges being mounted at different heights, so the total head is
+<i>H</i> = <i>H<sub>d</sub></i> + (<i>h<sub>o</sub></i> &minus; <i>h<sub>i</sub></i>).
+</p>""")
+
+look.section("03", "Formulae")
 c1, c2 = st.columns(2, gap="large")
 with c1:
     st.markdown("**Flow rate**")
@@ -73,13 +92,13 @@ with st.expander("Total head when two pumps are used"):
     st.latex(r"\text{Parallel:}\quad H = H_d + \left(h_m - h_i\right)")
     st.caption("hₘ is the discharge manifold gauge. Not used in this single-pump run.")
 
-look.section("03", "Variables")
+look.section("04", "Variables")
 rows = [
     ("Motor speed", "n", "Hz", "set", "Pump speed for the F1-27, set on the inverter."),
     ("Volume of water", "V", "m³", "set", "Volume collected in the measuring tank. Read in litres, ÷ 1000."),
     ("Time to collect", "t", "s", "read", "Stopwatch time for the known volume to collect."),
-    ("Inlet head", "h<sub>i</sub>", "m", "read", "Head from the F1-27 inlet gauge."),
-    ("Outlet head", "h<sub>o</sub>", "m", "read", "Head from the F1-27 outlet gauge."),
+    ("Inlet head", "h<sub>i</sub>", "m", "read", "Inlet gauge: pressure just before the pump (suction side), in metres of water."),
+    ("Outlet head", "h<sub>o</sub>", "m", "read", "Outlet gauge: pressure just after the pump (delivery side), in metres of water."),
     ("Pump power input", "W<sub>i</sub>", "W", "read", "From the inverter display (kW LED flashing)."),
     ("Head correction factor", "h<sub>d</sub>", "m", "given", "Height of a gauge above the impeller centre line."),
     ("Datum head correction", "H<sub>d</sub>", "m", "given", "Vertical distance between the gauges used; 0.15 m."),
@@ -95,7 +114,7 @@ body = "".join(
 st.html(f'<table class="rec"><tr><th>Quantity</th><th>Symbol</th><th class="num">Unit</th>'
         f'<th>Role</th><th>Definition</th></tr>{body}</table>')
 
-look.section("04", "Why the curves look the way they do")
+look.section("05", "Why the curves look the way they do")
 st.html("""
 <p class="prose">
 <b>Head falls as flow rises.</b> At a fixed speed the impeller can only give each kilogram of water
@@ -112,8 +131,3 @@ churning water, so efficiency is low. It improves as flow increases, peaks at th
 <i>best efficiency point</i>, and falls again once losses take over. On this rig the
 efficiency was still close to its peak at the widest valve setting tested.
 </p>""")
-
-with st.expander("Affinity laws (used on the virtual bench)"):
-    st.latex(r"\frac{Q_2}{Q_1} = \frac{n_2}{n_1} \qquad \frac{H_2}{H_1} = \left(\frac{n_2}{n_1}\right)^2 \qquad \frac{W_2}{W_1} = \left(\frac{n_2}{n_1}\right)^3")
-    st.caption("They scale a pump's 50 Hz curve to another speed. The lab only measured at 50 Hz, "
-               "so anything the virtual bench shows at other speeds is a prediction, not a measurement.")
